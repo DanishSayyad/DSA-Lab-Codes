@@ -1,0 +1,15 @@
+28	Aryaman	57
+3	Ananya	59
+18	Sneha	60
+13	Mohit	65
+40	Amit	70
+2	Parul	72
+34	Abhishek	78
+8	Jay	78
+27	Ritul	78
+23	Apurva	80
+1	Janvi	80
+46	Diksha	83
+7	Khushi	90
+5	Danish	100
+35	Neil	100
