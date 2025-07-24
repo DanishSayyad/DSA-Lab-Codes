@@ -77,23 +77,24 @@ void MergeSort(char* file, int s) {
 }
 
 int partition(int a[], int s, int e) {
-	int pivot = a[s];
-	int i = s + 1, j = e;
-	while(i < j) {
-		while (i <= e && a[i] < pivot) i++;
-        	while (j >= s + 1 && a[j] > pivot) j--;
-		if(i < j) {
-			int temp = a[i];
-			a[i] = a[j];
-			a[j] = temp;
-		}
-		else {
-			int temp = pivot;
-			a[s] = a[j];
-			a[j] = pivot;
-		}
-	}
-	return j;
+    int pivot = a[s];
+    int i = s + 1, j = e;
+    while (i <= j) {
+        while (i <= e && a[i] < pivot) i++;
+        while (j >= s + 1 && a[j] > pivot) j--;
+        if (i < j) {
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+            i++;
+            j--;
+        }
+    }
+    // swap pivot into its correct position
+    int temp = a[s];
+    a[s] = a[j];
+    a[j] = temp;
+    return j;
 }
 
 void qsort(int a[], int s, int e) {
