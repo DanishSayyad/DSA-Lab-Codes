@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 20
 201 Amit 50000
 142 Rahul 55000
@@ -19,3 +20,27 @@
 118 Pooja 68000
 119 Aarti 69000
 120 Kiran 70000
+=======
+20
+101 Amit 50000
+102 Rahul 55000
+103 Sneha 60000
+104 Priya 58000
+105 Kunal 52000
+106 Nikhil 57000
+107 Neha 59000
+108 Varun 61000
+109 Ayesha 54000
+110 Ramesh 53000
+111 Suresh 62000
+112 Manish 51000
+113 Tanvi 63000
+114 Ritu 64000
+115 Sakshi 65000
+116 Aryan 66000
+117 Devika 67000
+118 Pooja 68000
+119 Aarti 69000
+120 Kiran 70000
+
+>>>>>>> 995501c532bde0fcac677ba09c133489afa1eb8b
