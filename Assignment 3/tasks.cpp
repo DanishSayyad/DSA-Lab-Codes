@@ -26,15 +26,21 @@ class TaskManager {
 		bool removeTask(int);
 		void priorityCount();
 		void markOff();
-};
-
+		void totalTime();
+		void searchTask(string);
+		void updateTask(int);
+	};
+	
 void showChoice() {
 	cout << "1. Add a task\n";
 	cout << "2. Remove a task\n";
 	cout << "3. Display all tasks\n";
-	cout << "4. Mark off a task\n";
-	cout << "5. Task count by priority\n";
-	cout << "6. Quit\n";
+	cout << "4. Update a task\n";
+	cout << "5. Search a task\n";
+	cout << "6. Mark off a task\n";
+	cout << "7. Task count by priority\n";
+	cout << "8. Total time required.\n";
+	cout << "9. Quit\n";
 	return;
 }
 
@@ -43,8 +49,11 @@ enum choice {
 	ADD,
 	REMOVE,
 	DISPLAY,
+	UPDATE,
+	SEARCH,
 	MARK,
 	INFO,
+	COUNT,
 	QUIT
 };
 
@@ -78,23 +87,46 @@ int main() {
 				cin >> t;
 				T1.addTask(n, p, t);
 				break;
+				
 			case REMOVE:
-			int num;
+				int num;
 				cout << "Enter task number to remove: ";
 				cin >> num;
 				if(T1.removeTask(num)) cout << "Task removed successfully!\n";
 				else cout << "Could not find the task!\n";
 				break;
+			
+			case UPDATE:
+				int upos;
+				cout << "Enter task number to update: ";
+				cin >> upos;
+				T1.updateTask(upos);
+				break;
+				
 			case DISPLAY:
 				T1.displayTasks();
 				break;
+				
 			case MARK:
 				T1.markOff();
 				break;
+				
 			case INFO:
 				cout << "Task count by priority:\nPriority\tCount\n";
 				T1.priorityCount();
 				break;
+
+			case COUNT:
+				T1.totalTime();
+				break;
+			
+			case SEARCH:
+				cout << "Enter task name to search: ";
+				cin.ignore();
+				getline(cin, n);
+				T1.searchTask(n);
+				break;
+
 			case QUIT:
 				cout << "Quitting program.";
 				break;
@@ -221,4 +253,74 @@ void TaskManager :: priorityCount() {
 	for(int i = 0; i < 5; i++)
 		cout << "(" << i + 1 << ")\t\t" << freq[i] << endl;
 	return;
+}
+
+void TaskManager :: totalTime() {
+	if(!head) {
+		cout << "No tasks pending.\n";
+		return;
+	}
+
+	node *ptr = head;
+	int time = 0, count = 0;
+	while(ptr) {
+		count++;
+		time += ptr->time;
+		ptr = ptr->next;
+	}
+
+	cout << "It'll take " << time << " minutes to complete " << count << " tasks.\n";
+	return;
+}
+
+void TaskManager :: searchTask(string taskName) {
+    if (!head) {
+        cout << "No tasks to be searched.\n";
+        return;
+    }
+    node *ptr = head;
+    int pos = 1;
+    bool found = false;
+    while (ptr) {
+        if (ptr->name == taskName) {
+            cout << "Task found at position: " << pos << endl;
+            found = true;
+            break;
+        }
+        ptr = ptr->next;
+        pos++;
+    }
+    if (!found) {
+        cout << "Not found\n";
+    }
+    return;
+}
+
+void TaskManager :: updateTask(int num) {
+	node *ptr = head;
+    int pos = 1;
+    while (ptr && pos < num) {
+        ptr = ptr->next;
+        pos++;
+    }
+    if (!ptr) {
+        cout << "No task at position " << num << endl;
+        return;
+    }
+
+	removeTask(num);
+
+    string name;
+    short priority;
+    int time;
+    cout << "Enter new task name: ";
+    cin.ignore();
+    getline(cin, name);
+    cout << "Enter new task priority: ";
+    cin >> priority;
+    cout << "Enter new task time: ";
+    cin >> time;
+    addTask(name, priority, time);
+    cout << "Task updated successfully!\n";
+    return;
 }
