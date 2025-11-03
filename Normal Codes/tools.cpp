@@ -303,3 +303,205 @@ public:
         }
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+// ========== HASH TABLE WITH LINEAR PROBING ==========
+class HashTableLinear {
+private:
+    int* table;
+    bool* occupied;
+    int size;
+    
+    // Hash function (to be implemented based on requirements)
+    int hashFunction(int key) {
+        // Leave empty for now - can be implemented as needed
+        return key % size;
+    }
+    
+public:
+    HashTableLinear(int tableSize = 10) {
+        size = tableSize;
+        table = new int[size];
+        occupied = new bool[size];
+        
+        for (int i = 0; i < size; i++) {
+            occupied[i] = false;
+        }
+    }
+    
+    // Insert a key using linear probing
+    bool insert(int key) {
+        int index = hashFunction(key);
+        int originalIndex = index;
+        
+        // Linear probing
+        while (occupied[index]) {
+            if (table[index] == key) {
+                cout << "Key " << key << " already exists!\n";
+                return false;
+            }
+            index = (index + 1) % size;
+            
+            // Table is full
+            if (index == originalIndex) {
+                cout << "Hash table is full!\n";
+                return false;
+            }
+        }
+        
+        table[index] = key;
+        occupied[index] = true;
+        return true;
+    }
+    
+    // Search for a key
+    bool search(int key) {
+        int index = hashFunction(key);
+        int originalIndex = index;
+        
+        while (occupied[index]) {
+            if (table[index] == key) {
+                cout << "Key " << key << " found at index " << index << endl;
+                return true;
+            }
+            index = (index + 1) % size;
+            
+            if (index == originalIndex) {
+                break;
+            }
+        }
+        
+        cout << "Key " << key << " not found!\n";
+        return false;
+    }
+    
+    // Remove a key
+    bool remove(int key) {
+        int index = hashFunction(key);
+        int originalIndex = index;
+        
+        while (occupied[index]) {
+            if (table[index] == key) {
+                occupied[index] = false;
+                cout << "Key " << key << " removed successfully!\n";
+                return true;
+            }
+            index = (index + 1) % size;
+            
+            if (index == originalIndex) {
+                break;
+            }
+        }
+        
+        cout << "Key " << key << " not found!\n";
+        return false;
+    }
+    
+    // Display the hash table
+    void display() {
+        cout << "Hash Table (Linear Probing):\n";
+        for (int i = 0; i < size; i++) {
+            if (occupied[i]) {
+                cout << "Index " << i << ": " << table[i] << endl;
+            } else {
+                cout << "Index " << i << ": Empty\n";
+            }
+        }
+    }
+    
+    // Destructor
+    ~HashTableLinear() {
+        delete[] table;
+        delete[] occupied;
+    }
+};
+
+// ========== HASH TABLE WITH CHAINING ==========
+class HashTableChaining {
+private:
+    LinkedList* table;
+    int size;
+    
+    // Hash function (to be implemented based on requirements)
+    int hashFunction(int key) {
+        // Leave empty for now - can be implemented as needed
+        return key % size;
+    }
+    
+public:
+    HashTableChaining(int tableSize = 10) {
+        size = tableSize;
+        table = new LinkedList[size];
+    }
+    
+    // Insert a key using chaining
+    bool insert(int key) {
+        int index = hashFunction(key);
+        
+        // Check if key already exists in the chain
+        if (table[index].searchNode(key) != -1) {
+            cout << "Key " << key << " already exists!\n";
+            return false;
+        }
+        
+        table[index].addNode(key);
+        return true;
+    }
+    
+    // Search for a key
+    bool search(int key) {
+        int index = hashFunction(key);
+        
+        int position = table[index].searchNode(key);
+        if (position != -1) {
+            cout << "Key " << key << " found at index " << index << " (chain position " << position << ")\n";
+            return true;
+        }
+        
+        cout << "Key " << key << " not found!\n";
+        return false;
+    }
+    
+    // Remove a key
+    bool remove(int key) {
+        int index = hashFunction(key);
+        
+        int position = table[index].searchNode(key);
+        if (position != -1) {
+            table[index].removeNode(position);
+            cout << "Key " << key << " removed successfully!\n";
+            return true;
+        }
+        
+        cout << "Key " << key << " not found!\n";
+        return false;
+    }
+    
+    // Display the hash table
+    void display() {
+        cout << "Hash Table (Chaining):\n";
+        for (int i = 0; i < size; i++) {
+            cout << "Index " << i << ": ";
+            if (table[i].isEmpty()) {
+                cout << "Empty\n";
+            } else {
+                table[i].display();
+            }
+        }
+    }
+    
+    // Destructor
+    ~HashTableChaining() {
+        delete[] table;
+    }
+};
